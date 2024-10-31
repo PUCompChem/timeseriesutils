@@ -1,0 +1,14 @@
+name: fp_analysis
+channels:
+  - defaults
+  - conda-forge
+dependencies:
+  - python==3.10
+  - pandas
+  - numpy
+  - ploomber
+  - scipy
+  - matplotlib
+  - seaborn
+  - scikit-learn
+  - pip
