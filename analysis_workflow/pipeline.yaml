@@ -1,0 +1,93 @@
+tasks:
+
+  - source: tasks/aggregate_data_vectors.py
+    product:
+      nb: '{{folder_output}}/notebooks/aggregate_data_vectors.ipynb'
+      aggregated_data_vectors: '{{folder_output}}/aggregated_data_vectors/'
+    params:
+      folder_input: '{{folder_input}}'
+      var: '{{var}}'
+      year: '{{year}}'
+      start_date: '{{start_date}}'
+      end_date: '{{end_date}}'
+      period: '{{period}}'
+      agg_type: '{{agg_type}}'
+
+  - source: tasks/aggregate_nodes.py
+    product:
+      nb: '{{folder_output}}/notebooks/aggregate_nodes.ipynb'
+      aggregated_nodes: '{{folder_output}}/aggregated_nodes/'
+    params:
+      folder_input: '{{folder_input}}'
+      year: '{{year}}'
+      start_date: '{{start_date}}'
+      end_date: '{{end_date}}'
+      period: '{{period}}'
+      agg_type: '{{agg_type}}'
+
+  - source: tasks/calc_dist_matrix.py
+    product:
+      nb: '{{folder_output}}/notebooks/calc_dist_matrix.ipynb'
+      calculated_dist_matrix: '{{folder_output}}/calculated_dist_matrix/'
+    params:
+      dist_matrix_type: '{{dist_matrix_type}}'
+
+  - source: tasks/calc_nodes_means.py
+    product:
+      nb: '{{folder_output}}/notebooks/calc_nodes_means.ipynb'
+      calculated_nodes_means: '{{folder_output}}/calculated_nodes_means/'
+
+  - source: tasks/calc_vector_means.py
+    product:
+      nb: '{{folder_output}}/notebooks/calc_vector_means.ipynb'
+      calculated_vector_means: '{{folder_output}}/calculated_vector_means/'
+
+  - source: tasks/filter_data_nodes.py
+    product:
+      nb: '{{folder_output}}/notebooks/filter_data_nodes.ipynb'
+      filtered_data_nodes: '{{folder_output}}/filtered_data_nodes/'
+
+  - source: tasks/filter_data_with_datetime.py
+    product:
+      nb: '{{folder_output}}/notebooks/filter_data_with_datetime.ipynb'
+      filtered_data_with_datetime: '{{folder_output}}/filtered_data_with_datetime/'
+    params:
+      var: '{{var}}'
+
+  - source: tasks/filter_data.py
+    product:
+      nb: '{{folder_output}}/notebooks/filter_data.ipynb'
+      filtered_data: '{{folder_output}}/filtered_data/'
+
+  - source: tasks/generate_clusters.py
+    product:
+      nb: '{{folder_output}}/notebooks/generate_clusters.ipynb'
+      generated_clusters: '{{folder_output}}/generated_clusters/'
+    params:
+      dist_matrix_type: '{{dist_matrix_type}}'
+      clusters: '{{clusters}}'
+      method: '{{method}}'
+
+  - source: tasks/generate_heatmap.py
+    product:
+      nb: '{{folder_output}}/notebooks/generate_heatmap.ipynb'
+      generated_heatmap: '{{folder_output}}/generated_heatmap/'
+
+  - source: tasks/generate_histogram.py
+    product:
+      nb: '{{folder_output}}/notebooks/generate_histogram.ipynb'
+      generated_histograms: '{{folder_output}}/generated_histograms/'
+    params:
+      var: '{{var}}'
+
+  - source: tasks/generate_scatterplot.py
+    product:
+      nb: '{{folder_output}}/notebooks/generate_scatterplot.ipynb'
+      generated_scatterplot: '{{folder_output}}/generated_scatterplot/'
+    params:
+      var: '{{var}}'
+
+  - source: tasks/generate_seriesplot.py
+    product:
+      nb: '{{folder_output}}/notebooks/generate_seriesplot.ipynb'
+      generated_seriesplot: '{{folder_output}}/generated_seriesplot/'
