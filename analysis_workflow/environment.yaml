@@ -1,4 +1,4 @@
-name: fp_analysis
+name: ts_analysis
 channels:
   - defaults
   - conda-forge
