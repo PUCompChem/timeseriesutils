@@ -105,3 +105,16 @@ tasks:
       end_date: '{{end_date}}'
       period: '{{period}}'
       agg_type: '{{agg_type}}'
+
+  - source: tasks/correlation_profiles.py
+    product:
+      nb: '{{folder_output}}/notebooks/correlation_profiles.ipynb'
+      profiles: '{{folder_output}}/correlation_profiles/'
+    params:
+      folder_input: '{{folder_input}}'
+      var: '{{var}}'
+      year: '{{year}}'
+      start_date: '{{start_date}}'
+      end_date: '{{end_date}}'
+      period: '{{period}}'
+      agg_type: '{{agg_type}}'
