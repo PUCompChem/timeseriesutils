@@ -1,6 +1,4 @@
 # + tags=["parameters"]
-from matplotlib import pyplot as plt
-
 upstream = ['aggregate_nodes']
 product = None
 folder_input = None
@@ -17,9 +15,7 @@ import pandas as pd
 from sklearn.linear_model import LinearRegression
 from sklearn.metrics import r2_score
 import numpy as np
-import seaborn as sns
 import plotly.graph_objects as go
-import plotly.express as px
 
 csv_files = glob.glob(os.path.join(upstream['aggregate_nodes']['aggregated_nodes'], '*.csv'))
 os.makedirs(product['profiles'], exist_ok=True)
@@ -46,7 +42,10 @@ def calc_params(df, param1, param2):
     a, b = model.coef_[1], model.coef_[0]
     c = model.intercept_
 
-    return a, b, c
+    y_pred_quadratic = a * df[param1] ** 2 + b * df[param1] + c
+    r2_quadratic = r2_score(y, y_pred_quadratic)
+
+    return a, b, c, r2_quadratic
 
 
 def plot_correlation(df, param_x, param_y, a, b, c):
@@ -102,8 +101,8 @@ for file in csv_files:
     node_name = file_name.split('_')[1].split('.')[0]
     df_cleaned = df.dropna()
 
-    a, b, c = calc_params(df_cleaned, param1, param2)
-    temp_df = pd.DataFrame({"node_name": [node_name], "x^2": [a], "x": [b], "intercept": [c]})
+    a, b, c, r2 = calc_params(df_cleaned, param1, param2)
+    temp_df = pd.DataFrame({"node_name": [node_name], "x^2": [a], "x": [b], "intercept": [c], 'R2': [r2]})
     result_df = pd.concat([result_df, temp_df], ignore_index=True)
 
     fig = plot_correlation(df_cleaned, param1, param2, a, b, c)
