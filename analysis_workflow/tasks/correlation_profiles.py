@@ -21,6 +21,7 @@ csv_files = glob.glob(os.path.join(upstream['aggregate_nodes']['aggregated_nodes
 os.makedirs(product['profiles'], exist_ok=True)
 param1 = 'temperature'
 param2 = 'pm_2.5'
+process_by_year = True
 
 
 def calc_params(df, param1, param2):
@@ -93,6 +94,34 @@ def plot_correlation(df, param_x, param_y, a, b, c):
 
 
 result_df = pd.DataFrame()
+yearly_data = {}
+
+if process_by_year:
+    for file in csv_files:
+        df = pd.read_csv(file)
+        file_name = os.path.basename(file)
+        output_file = os.path.join(product['profiles'], os.path.splitext(file_name)[0])
+        node_name = file_name.split('_')[1].split('.')[0]
+        df_cleaned = df.dropna()
+
+        df_cleaned['datetime'] = pd.to_datetime(df_cleaned['datetime'])
+        years = df_cleaned['datetime'].dt.year.unique()
+        for year in years:
+            year_data = df_cleaned[df_cleaned['datetime'].dt.year == year]
+
+            a, b, c, r2 = calc_params(year_data, param1, param2)
+            temp_df = pd.DataFrame({"node_name": [node_name], "x^2": [a], "x": [b], "intercept": [c], 'R2': [r2]})
+
+            if year not in yearly_data:
+                yearly_data[year] = temp_df
+            else:
+                yearly_data[year] = pd.concat([yearly_data[year], temp_df], ignore_index=True)
+
+for year, df in yearly_data.items():
+    print(f"Combined DataFrame for year {year}:")
+    print(df)
+    output_file = os.path.join(product['profiles'], f"correlation_profiles_{year}.csv")
+    df.to_csv(output_file, index=False)
 
 for file in csv_files:
     df = pd.read_csv(file)
