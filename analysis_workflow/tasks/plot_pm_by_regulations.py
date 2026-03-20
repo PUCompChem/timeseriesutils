@@ -99,55 +99,63 @@ for file in csv_files:
     file_name = os.path.basename(file)
     output_file = os.path.join(product['plots'], os.path.splitext(file_name)[0])
 
-    pm_by_year_norm(df, 'pm_10.0', 'pm_2.5', 'datetime', f'{output_file}_by_year.html')
-    df_result = pm_by_daily_norm(df, 'pm_10.0', 'datetime', f'{output_file}_by_day.html')
+    if period in ('Y', 'YE', 'YS'):
+        pm_by_year_norm(df, 'pm_10.0', 'pm_2.5', 'datetime', f'{output_file}_by_year.html')
+    elif period == 'D':
+        df_result = pm_by_daily_norm(df, 'pm_10.0', 'datetime', f'{output_file}_by_day.html')
 
-    #node_name = file_name.split('_')[1].split('.')[0]
-    #node_label = file_name.split('_')[1].split('.')[0]
-    #node_name = node_label + ' ' + ' '.join(file_name.split('_')[2:]).split('.')[0]
+        #node_name = file_name.split('_')[1].split('.')[0]
+        #node_label = file_name.split('_')[1].split('.')[0]
+        #node_name = node_label + ' ' + ' '.join(file_name.split('_')[2:]).split('.')[0]
     
-    node_name = ' '.join(file_name.split('_')[2:]).split('.')[0]
-    result = df_result.groupby(['year', 'color1']).size().reset_index(name='count')
-    result['node'] = node_name
-    red_data = result[result['color1'] == 'Red']
-    combined_df = pd.concat([combined_df, red_data], ignore_index=True)
+        node_name = ' '.join(file_name.split('_')[2:]).split('.')[0]
+        result = df_result.groupby(['year', 'color1']).size().reset_index(name='count')
+        result['node'] = node_name
+        red_data = result[result['color1'] == 'Red']
+        combined_df = pd.concat([combined_df, red_data], ignore_index=True)
 
-del combined_df['color1']
-combined_df['year'] = combined_df['year'].astype(str)
-combined_df['year'] = pd.Categorical(combined_df['year'], categories=sorted(combined_df['year'].unique()), ordered=True)
-combined_df = combined_df.sort_values('year')
-print(combined_df)
+# Summary chart only for daily aggregation
+if period == 'D':
+    del combined_df['color1']
+    combined_df['year'] = combined_df['year'].astype(str)
+    combined_df['year'] = pd.Categorical(combined_df['year'], categories=sorted(combined_df['year'].unique()), ordered=True)
+    combined_df = combined_df.sort_values('year')
+    print(combined_df)
 
-all_years = sorted(combined_df['year'].unique())
-all_nodes = combined_df['node'].unique()
-all_combinations = pd.MultiIndex.from_product([all_years, all_nodes], names=['year', 'node']).to_frame(index=False)
-merged_df = pd.merge(all_combinations, combined_df, on=['year', 'node'], how='left')
-merged_df['count'] = merged_df['count'].fillna(0)
-print(merged_df)
+    all_years = sorted(combined_df['year'].unique())
+    all_nodes = combined_df['node'].unique()
+    all_combinations = pd.MultiIndex.from_product([all_years, all_nodes], names=['year', 'node']).to_frame(index=False)
+    merged_df = pd.merge(all_combinations, combined_df, on=['year', 'node'], how='left')
+    merged_df['count'] = merged_df['count'].fillna(0)
+    print(merged_df)
 
-fig = px.bar(
-    # combined_df,
-    merged_df,
-    x='node',
-    y='count',
-    color='year',
-    barmode='group',
-    title=f'Number of exceeded values aggregated by {period}',
-    labels={'count': 'Count', 'node': 'Node'},
-    text='count'
-)
-fig.update_traces(marker=dict(line=dict(color='grey', width=2)))
+    fig = px.bar(
+        # combined_df,
+        merged_df,
+        x='node',
+        y='count',
+        color='year',
+        barmode='group',
+        title=f'Number of exceeded values aggregated by {period}',
+        labels={'count': 'Count', 'node': 'Node'},
+        text='count'
+    )
+    #Regulatory norms for Permitted exceedences per year
+    fig.add_hline(y=35, line_color='Red', line_dash='dash', layer='below')
 
-fig.update_layout(
-    legend_title='Year',
-    xaxis_title='Location',
-    yaxis_title='Count',
-    bargap=0.2,
-    bargroupgap=0.15,
-    template='plotly_white',
-    legend=dict(traceorder='normal'),
-    xaxis=dict(categoryorder='array', categoryarray=sorted(combined_df['year'].unique()))
-)
-output_file = os.path.join(product['plots'], 'summary.html')
+    fig.update_traces(marker=dict(line=dict(color='grey', width=2)))
 
-fig.write_html(output_file)
+    fig.update_layout(
+        legend_title='Year',
+        xaxis_title='Location',
+        yaxis_title='Count',
+        bargap=0.2,
+        bargroupgap=0.15,
+        template='plotly_white',
+        legend=dict(traceorder='normal'),
+        xaxis=dict(categoryorder='array', categoryarray=sorted(combined_df['year'].unique()))
+    )
+
+    output_file = os.path.join(product['plots'], 'summary.html')
+
+    fig.write_html(output_file)
