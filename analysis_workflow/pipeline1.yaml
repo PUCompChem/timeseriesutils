@@ -1,0 +1,34 @@
+tasks:
+
+  - source: tasks/aggregate_data_vectors.py
+    product:
+      nb: '{{folder_output}}/notebooks/aggregate_data_vectors.ipynb'
+      aggregated_data_vectors: '{{folder_output}}/aggregated_data_vectors/'
+    params:
+      folder_input: '{{folder_input}}'
+      var: '{{var}}'
+      year: '{{year}}'
+      start_date: '{{start_date}}'
+      end_date: '{{end_date}}'
+      period: '{{period}}'
+      agg_type: '{{agg_type}}'
+
+  - source: tasks/aggregate_nodes.py
+    product:
+      nb: '{{folder_output}}/notebooks/aggregate_nodes.ipynb'
+      aggregated_nodes: '{{folder_output}}/aggregated_nodes/'
+    params:
+      folder_input: '{{folder_input}}'
+      year: '{{year}}'
+      start_date: '{{start_date}}'
+      end_date: '{{end_date}}'
+      period: '{{period}}'
+      agg_type: '{{agg_type}}'
+
+  - source: tasks/plot_pm_by_regulations.py
+    product:
+      nb: '{{folder_output}}/notebooks/plot_pm_by_regulations.ipynb'
+      plots: '{{folder_output}}/plot_pm_by_regulations/'
+    
+
+  
