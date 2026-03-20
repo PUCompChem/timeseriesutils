@@ -33,18 +33,18 @@ def pm_by_year_norm(df, feature1, feature2, date, output_filename):
     df1['color2'] = df1[feature2].apply(lambda x: 'DeepSkyBlue' if x > 20 else 'Blue')
 
     fig.add_trace(go.Scatter(x=df1[date].values, y=df1[feature1].values,
-                             mode='markers',
-                             text=df1[feature1].values,
-                             textposition="top center",
+                             mode='markers+text',
+                             text=df1[feature1].round(1).values,
+                             textposition="middle right",
                              marker=dict(size=df1[feature1], color=df1['color1'].values),
                              hoverinfo='x+name+text',
                              name='PM10 [ug/m3]'))
 
     fig.add_trace(go.Scatter(x=df1[date].values, y=df1[feature2].values,
-                             mode='markers',
+                             mode='markers+text',
                              marker=dict(size=df1[feature2], color=df1['color2'].values),
-                             text=df1[feature2].values,
-                             textposition="top center",
+                             text=df1[feature2].round(1).values,
+                             textposition="middle right",
                              hoverinfo='x+name+text',
                              name='PM2.5 [ug/m3]'))
 
