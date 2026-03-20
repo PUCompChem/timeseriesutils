@@ -102,7 +102,11 @@ for file in csv_files:
     pm_by_year_norm(df, 'pm_10.0', 'pm_2.5', 'datetime', f'{output_file}_by_year.html')
     df_result = pm_by_daily_norm(df, 'pm_10.0', 'datetime', f'{output_file}_by_day.html')
 
-    node_name = file_name.split('_')[1].split('.')[0]
+    #node_name = file_name.split('_')[1].split('.')[0]
+    #node_label = file_name.split('_')[1].split('.')[0]
+    #node_name = node_label + ' ' + ' '.join(file_name.split('_')[2:]).split('.')[0]
+    
+    node_name = ' '.join(file_name.split('_')[2:]).split('.')[0]
     result = df_result.groupby(['year', 'color1']).size().reset_index(name='count')
     result['node'] = node_name
     red_data = result[result['color1'] == 'Red']
