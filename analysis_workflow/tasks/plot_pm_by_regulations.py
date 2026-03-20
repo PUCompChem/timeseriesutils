@@ -32,7 +32,11 @@ def pm_by_year_norm(df, feature1, feature2, date, output_filename):
     df1['color1'] = df1[feature1].apply(lambda x: 'LimeGreen' if x > 40 else 'Green')
     df1['color2'] = df1[feature2].apply(lambda x: 'DeepSkyBlue' if x > 20 else 'Blue')
 
-    fig.add_trace(go.Scatter(x=df1[date].values, y=df1[feature1].values,
+    date_labels = pd.to_datetime(df1[date]).dt.year.astype(str)
+
+    #use date_labels instead of df1[date].values
+    #to avoid  Plotly/pandas issue with how year-end dates are handled
+    fig.add_trace(go.Scatter(x=date_labels, y=df1[feature1].values,
                              mode='markers+text',
                              text=df1[feature1].round(1).values,
                              textposition="middle right",
@@ -40,7 +44,7 @@ def pm_by_year_norm(df, feature1, feature2, date, output_filename):
                              hoverinfo='x+name+text',
                              name='PM10 [ug/m3]'))
 
-    fig.add_trace(go.Scatter(x=df1[date].values, y=df1[feature2].values,
+    fig.add_trace(go.Scatter(x=date_labels, y=df1[feature2].values,
                              mode='markers+text',
                              marker=dict(size=df1[feature2], color=df1['color2'].values),
                              text=df1[feature2].round(1).values,
