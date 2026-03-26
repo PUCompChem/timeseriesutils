@@ -11,4 +11,7 @@ dependencies:
   - matplotlib
   - seaborn
   - scikit-learn
+  - plotly
   - pip
+  - pip:
+    - kaleido

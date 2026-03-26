@@ -19,6 +19,7 @@ Parameters:
 - dist_matrix_type (str): The type of distance matrix wanted, by default it uses Euclidean (euclidean, cosine, cityblock).
 - method (str): The type of clustering algorithm to be used, by default it uses Ward (ward, single, complete, average, centroid, median, weighted).
 - clusters (str or int): Defines how to determine the number of clusters, by default it uses Silhouette (elbow, silhouette, or an integer in the range 1 to 20).
+- k_count (int): Defines how many neighbors will be checked to determine the classification of a specific query point, by default it's 10.
 
 Running the Aggregation in the Terminal:
 - Use the command 'ploomber build' to run the aggregation process with the default parameters specified in env.yaml.
@@ -26,7 +27,7 @@ Running the Aggregation in the Terminal:
 
 Example:
 1. Aggregating data for PM 2.5 for the year 2023 with a monthly period. Additionally specifying to calculate distance matrix with Cosine distance, to determine the number of clusters by silhouette and to use ward type of clustering algorithm:
-> ploomber build --env--var 'pm_2.5' --env--year 2023 --env--period '1ME' --env--agg_type 'mean' --env--dist_matrix_type 'cosine' --env--clusters 'silhouette' --env--method 'ward' 
+> ploomber build --env--var 'pm_2.5' --env--year 2023 --env--period '1ME' --env--agg_type 'mean' --env--dist_matrix_type 'cosine' --env--clusters 'silhouette' --env--method 'ward' --env--k_count 5
 
 2. Aggregating data for PM 2.5 for a specific range period with a weekly period: Additionally specifying to calculate distance matrix with Euclidean distance, to determine the number of clusters by elbow and to use single type of clustering algorithm:
 > ploomber build --env--var 'pm_2.5' --env--start_date '1/1/2023' --env--end_date '4/1/2023' --env--period '1ME' --env--agg_type 'mean' --env--dist_matrix_type 'euclidean' --env--clusters 'elbow' --env--method 'ward' 

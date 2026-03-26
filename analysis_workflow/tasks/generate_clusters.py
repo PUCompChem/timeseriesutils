@@ -98,7 +98,7 @@ dendrogram(
 )
 
 ax.set_title('Hierarchical Clustering Dendrogram')
-ax.set_xlabel('Material')
+ax.set_xlabel('Nodes')
 ax.set_ylabel('Distance')
 ax.tick_params(axis='y', rotation=0, labelsize=8)
 plt.tight_layout()
