@@ -49,18 +49,18 @@ tasks:
       nb: '{{folder_output}}/notebooks/calc_vector_means.ipynb'
       calculated_vector_means: '{{folder_output}}/calculated_vector_means/'
 
-  - source: tasks/correlation_profiles.py
-    product:
-      nb: '{{folder_output}}/notebooks/correlation_profiles.ipynb'
-      profiles: '{{folder_output}}/correlation_profiles/'
-    params:
-      folder_input: '{{folder_input}}'
-      var: '{{var}}'
-      year: '{{year}}'
-      start_date: '{{start_date}}'
-      end_date: '{{end_date}}'
-      period: '{{period}}'
-      agg_type: '{{agg_type}}'
+  #- source: tasks/correlation_profiles.py
+  #  product:
+  #    nb: '{{folder_output}}/notebooks/correlation_profiles.ipynb'
+  #    profiles: '{{folder_output}}/correlation_profiles/'
+  #  params:
+  #    folder_input: '{{folder_input}}'
+  #    var: '{{var}}'
+  #    year: '{{year}}'
+  #    start_date: '{{start_date}}'
+  #    end_date: '{{end_date}}'
+  #    period: '{{period}}'
+  #    agg_type: '{{agg_type}}'
 
   - source: tasks/filter_data_nodes.py
     product:
@@ -122,15 +122,15 @@ tasks:
       nb: '{{folder_output}}/notebooks/generate_z-score.ipynb'
       generated_z-score: '{{folder_output}}/generated_z-score/'
 
-  - source: tasks/plot_pm_by_regulations.py
-    product:
-      nb: '{{folder_output}}/notebooks/plots_by_regulations.ipynb'
-      plots: '{{folder_output}}/plots_by_regulations/'
-    params:
-      folder_input: '{{folder_input}}'
-      var: '{{var}}'
-      year: '{{year}}'
-      start_date: '{{start_date}}'
-      end_date: '{{end_date}}'
-      period: '{{period}}'
-      agg_type: '{{agg_type}}'
+  #- source: tasks/plot_pm_by_regulations.py
+  #  product:
+  #    nb: '{{folder_output}}/notebooks/plots_by_regulations.ipynb'
+  #    plots: '{{folder_output}}/plots_by_regulations/'
+  #  params:
+  #    folder_input: '{{folder_input}}'
+  #    var: '{{var}}'
+  #    year: '{{year}}'
+  #    start_date: '{{start_date}}'
+  #    end_date: '{{end_date}}'
+  #    period: '{{period}}'
+  #    agg_type: '{{agg_type}}'
